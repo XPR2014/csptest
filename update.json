@@ -3,5 +3,5 @@
   "versionName": "1.0.0",
   "updateContent": "1.位运算+进制混合刷题\n2.应用内附带了可以用作学习的编程计算资料\n3.自带手写演算草稿面板",
   "downloadUrl": "https://gitee.com/XuPengrui/csptest/releases/download/1.0.0/csptest_v1.0.0.apk",
-  "isForce": false
+  "forceUpdate": false
 }

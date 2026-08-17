@@ -1,7 +1,16 @@
-{
-  "versionCode": 2,
-  "versionName": "1.0.1",
-  "updateContent": "1.新增按位与&、按位或|题型，仅保留异或、与、或三类基础位运算，去除移位运算\n2.运算解析详情适配三种位运算规则，二进制对照讲解更清晰\n3.错题本同步收录&、|错题记录",
-  "downloadUrl": "https://gitee.com/XuPengrui/csptest/releases/download/1.0.1/csptest_v1.0.1.apk",
-  "forceUpdate": false
-}
+[
+    {
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "updateContent": "1.位运算+进制混合刷题\n2.应用内附带了可以用作学习的编程计算资料\n3.自带手写演算草稿面板",
+    "downloadUrl": "https://gitee.com/XuPengrui/csptest/releases/download/1.0.0/csptest_v1.0.0.apk",
+    "forceUpdate": false
+  },
+  {
+    "versionCode": 2,
+    "versionName": "1.0.1",
+    "updateContent": "1.新增按位与&、按位或|题型，只保留异或^、按位与&、按位或|，移除左右移位题目\n2.运算解析适配三种位运算规则，附带二进制、十六进制对照讲解\n3.错题本支持存储&、|题型错题记录",
+    "downloadUrl": "https://gitee.com/XuPengrui/csptest/releases/download/1.0.1/csptest_v1.0.1.apk",
+    "forceUpdate": false
+  }
+]

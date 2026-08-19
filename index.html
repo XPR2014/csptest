@@ -68,6 +68,47 @@
         .btn-download:active {
             background-color: #1d4ed8;
         }
+        .btn-history {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            background-color: #6b7280;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-top: 14px;
+            cursor: pointer;
+        }
+        .btn-history:active {
+            background-color: #4b5563;
+        }
+        .history-wrap {
+            margin-top: 24px;
+            display: none;
+        }
+        .history-item {
+            padding: 14px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .history-ver {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .history-desc {
+            font-size: 14px;
+            color: #444;
+            white-space: pre-line;
+            line-height: 1.6;
+            margin-bottom:8px;
+        }
+        .history-link{
+            font-size:14px;
+            color:#2563eb;
+        }
         .tip {
             margin-top: 20px;
             color: #777;
@@ -93,9 +134,15 @@
     <div class="version" id="version-text">正在获取版本信息...</div>
 
     <div id="content-wrap" style="display: none;">
-        <div class="log-title">📝 更新日志 </div>
+        <div class="log-title">📝 最新版更新日志 </div>
         <div class="update-log" id="update-log"></div>
         <a class="btn-download" id="download-btn">📥 拉取最新APK下载 </a>
+        <button class="btn-history" id="btn-toggle-history">📜 查看历史版本</button>
+
+        <div class="history-wrap" id="history-wrap">
+            <div class="log-title">全部历史版本</div>
+            <div id="history-list"></div>
+        </div>
     </div>
 
     <div class="error" id="error-wrap" style="display: none; color:#c0392b;">
@@ -108,6 +155,7 @@
 </div>
 
 <script>
+    let versionList = [];
     // 和html同级，直接读取同目录update.json
     fetch('./update.json', {cache: "no-store"})
     .then(res => {
@@ -116,10 +164,10 @@
     })
     .then(rawText => {
         console.log("原始返回文本：", rawText);
-        const list = JSON.parse(rawText);
+        versionList = JSON.parse(rawText);
         // 按 versionCode 降序排序，取第一条 = 最新版本
-        list.sort((a,b) => b.versionCode - a.versionCode);
-        const data = list[0];
+        versionList.sort((a,b) => b.versionCode - a.versionCode);
+        const data = versionList[0];
 
         document.getElementById('version-text').innerText = `最新版本：${data.versionName}（code:${data.versionCode}）`;
         document.getElementById('update-log').innerText = data.updateContent;
@@ -128,12 +176,48 @@
         btn.href = data.downloadUrl;
         btn.target = "_blank";
         document.getElementById('content-wrap').style.display = "block";
+
+        // 渲染历史版本列表
+        renderHistory();
     })
     .catch(err => {
         console.error(err);
         document.getElementById('error-wrap').style.display = "block";
         document.getElementById("error-msg").innerText = `错误详情：${err.message}`;
     })
+
+    // 切换历史版本面板显示/隐藏
+    document.getElementById('btn-toggle-history').onclick = function(){
+        const wrap = document.getElementById('history-wrap');
+        if(wrap.style.display === "block"){
+            wrap.style.display = "none";
+            this.innerText = "📜 查看历史版本";
+        }else{
+            wrap.style.display = "block";
+            this.innerText = "📜 收起历史版本";
+        }
+    }
+
+    function renderHistory(){
+        const container = document.getElementById('history-list');
+        container.innerHTML = "";
+        // 跳过第0条最新版，展示旧版本
+        for(let i=1; i < versionList.length; i++){
+            const item = versionList[i];
+            const div = document.createElement("div");
+            div.className = "history-item";
+            div.innerHTML = `
+                <div class="history-ver">v${item.versionName} (code:${item.versionCode})</div>
+                <div class="history-desc">${item.updateContent}</div>
+                <a class="history-link" href="${item.downloadUrl}" target="_blank">下载此版本APK</a>
+            `
+            container.appendChild(div);
+        }
+        // 如果只有1个版本，提示无历史
+        if(versionList.length <= 1){
+            container.innerHTML = "<div style='padding:8px;color:#666'>暂无历史旧版本</div>"
+        }
+    }
 </script>
 </body>
 </html>

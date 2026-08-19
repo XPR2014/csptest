@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP刷题工具 - 官网下载</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #222;
+            padding: 40px 20px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+        .version {
+            color: #555;
+            margin-bottom: 24px;
+        }
+        .log-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+        .update-log {
+            white-space: pre-line;
+            line-height: 1.7;
+            color: #333;
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 28px;
+        }
+        .btn-download {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            text-align: center;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+        }
+        .btn-download:active {
+            background-color: #1d4ed8;
+        }
+        .tip {
+            margin-top: 20px;
+            color: #777;
+            font-size: 13px;
+            text-align: center;
+        }
+        .loading, .error {
+            text-align: center;
+            padding: 30px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>CSP刷题工具</h1>
+    <div class="version" id="version-text">正在获取版本信息...</div>
+
+    <div id="content-wrap" style="display: none;">
+        <div class="log-title">📝 更新日志</div>
+        <div class="update-log" id="update-log"></div>
+        <a class="btn-download" id="download-btn">📥 拉取最新APK下载</a>
+    </div>
+
+    <div class="error" id="error-wrap" style="display: none; color:#c0392b;">
+        获取版本信息失败，请稍后重试
+    </div>
+</div>
+<div class="tip">
+    部署于 Gitee | CSP刷题备考安卓客户端
+</div>
+
+<script>
+    // 和html同级，直接读取同目录update.json
+    fetch('./update.json')
+        .then(res => {
+            if (!res.ok) throw new Error('请求失败');
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById('version-text').innerText = `最新版本：${data.versionName}（code:${data.versionCode}）`;
+            document.getElementById('update-log').innerText = data.updateContent;
+
+            const btn = document.getElementById('download-btn');
+            btn.href = data.downloadUrl;
+            // 新标签打开下载链接
+            btn.target = "_blank";
+
+            document.getElementById('content-wrap').style.display = "block";
+        })
+        .catch(err => {
+            console.error(err);
+            document.getElementById('error-wrap').style.display = "block";
+        })
+</script>
+</body>
+</html>

@@ -103,26 +103,30 @@
 <script>
     // 和html同级，直接读取同目录update.json
     fetch('./update.json', {cache: "no-store"})
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP响应异常，状态码：${res.status}`);
-            return res.json();
-        })
-        .then(data => {
-            document.getElementById('version-text').innerText = `最新版本：${data.versionName}（code:${data.versionCode}）`;
-            document.getElementById('update-log').innerText = data.updateContent;
+    .then(res => {
+        if (!res.ok) throw new Error(`HTTP响应异常，状态码：${res.status}`);
+        return res.text();
+    })
+    .then(rawText => {
+        console.log("原始返回文本：", rawText);
+        const list = JSON.parse(rawText);
+        // 按 versionCode 降序排序，取第一条 = 最新版本
+        list.sort((a,b) => b.versionCode - a.versionCode);
+        const data = list[0];
 
-            const btn = document.getElementById('download-btn');
-            btn.href = data.downloadUrl;
-            // 新标签打开下载链接
-            btn.target = "_blank";
+        document.getElementById('version-text').innerText = `最新版本：${data.versionName}（code:${data.versionCode}）`;
+        document.getElementById('update-log').innerText = data.updateContent;
 
-            document.getElementById('content-wrap').style.display = "block";
-        })
-        .catch(err => {
-            console.error(err);
-            document.getElementById('error-wrap').style.display = "block";
-            document.getElementById("error-msg").innerText = `错误详情：${err.message}`;
-        })
+        const btn = document.getElementById('download-btn');
+        btn.href = data.downloadUrl;
+        btn.target = "_blank";
+        document.getElementById('content-wrap').style.display = "block";
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById('error-wrap').style.display = "block";
+        document.getElementById("error-msg").innerText = `错误详情：${err.message}`;
+    })
 </script>
 </body>
 </html>

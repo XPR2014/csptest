@@ -12,5 +12,12 @@
     "updateContent": "1.新增按位与&、按位或|题型，只保留异或^、按位与&、按位或|，移除左右移位题目\n2.运算解析适配三种位运算规则，附带二进制、十六进制对照讲解\n3.错题本支持存储&、|题型错题记录",
     "downloadUrl": "https://gitee.com/XuPengrui/csptest/releases/download/1.0.1/csptest_v1.0.1.apk",
     "forceUpdate": false
+  },
+    {
+    "versionCode": 3,
+    "versionName": "1.1.0",
+    "updateContent": "",
+    "downloadUrl": "",
+    "forceUpdate": false
   }
 ]

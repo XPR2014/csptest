@@ -72,6 +72,12 @@
             padding: 30px 0;
             font-size: 16px;
         }
+        .error-detail{
+            margin-top:10px;
+            font-size:13px;
+            color:#777;
+            white-space:pre-line;
+        }
     </style>
 </head>
 <body>
@@ -87,6 +93,7 @@
 
     <div class="error" id="error-wrap" style="display: none; color:#c0392b;">
         获取版本信息失败，请稍后重试
+        <div class="error-detail" id="error-msg"></div>
     </div>
 </div>
 <div class="tip">
@@ -95,9 +102,9 @@
 
 <script>
     // 和html同级，直接读取同目录update.json
-    fetch('./update.json')
+    fetch('./update.json', {cache: "no-store"})
         .then(res => {
-            if (!res.ok) throw new Error('请求失败');
+            if (!res.ok) throw new Error(`HTTP响应异常，状态码：${res.status}`);
             return res.json();
         })
         .then(data => {
@@ -114,6 +121,7 @@
         .catch(err => {
             console.error(err);
             document.getElementById('error-wrap').style.display = "block";
+            document.getElementById("error-msg").innerText = `错误详情：${err.message}`;
         })
 </script>
 </body>

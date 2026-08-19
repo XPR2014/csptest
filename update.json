@@ -23,7 +23,7 @@
   {
     "versionCode": 4,
     "versionName": "1.1.1",
-    "updateContent": "✨ 本次更新优化体验！\n1.修复了更新弹窗无法显示完整的问题\n2.优化了用户体验",
+    "updateContent": "✨ 本次更新优化体验！\n1.修复了更新弹窗无法显示完整的问题",
     "downloadUrl": "https://gitee.com/XuPengrui/csptest/releases/download/1.1.1/csptest_v1.1.1.apk",
     "forceUpdate": false
   } 
